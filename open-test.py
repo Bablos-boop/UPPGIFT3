@@ -92,12 +92,7 @@ def menu():
     elif choice == '4':
         print("Avslutar programmet...")
         exit()
-#TODO: hur gör man så funktionen load_data returnerar products istället?
-#TODO: gör så man kan se en numrerad lista som börjar på 1.
-#TODO: skriv en funktion som returnerar en specifik produkt med hjälp av id
-#TODO: skriv en funktion som tar bort en specifik produkt med hjälp av id
 
-   
 locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')  
 
 load_data('c:/Users/pablo.anderssonmeli/Documents/TilllämpadProgrammering/uppgift3/Uppgift3/db_products.csv')
