@@ -1,7 +1,8 @@
 import csv
 import os
 import locale
-
+import time
+from time import sleep
 
 products = []           #lista
 
@@ -41,13 +42,28 @@ def view_product(products, idx):
             return product
     return None
 
+def Save_data(products, filepath):
+    
+    sleep(0.1)
+
+    try:
+        with open(filepath, 'w', newline='') as file:
+            fieldnames = ['id', 'name', 'desc', 'price', 'quantity']
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(products)
+
+    except Exception as error_code:
+        print("Fel")
+    return f"OK"
+
 def menu():
 
-    print("1. Visa produkt")
+    print("1. Visa produkt och dess beskrivningar")
     print("2. Ta bort produkt")
     print("3. Lägg till produkt")
     print("4. Avsluta")
-    choice = input("Välj ett alternativ: ")
+    choice = int(input("Välj ett alternativ: "))
 
 
         
@@ -70,10 +86,12 @@ def menu():
             if product:
                 products.remove(product)
                 print("produkten är borttagen")
+                Save_data(products, 'db_products.csv')
             else:
                 print("Produkten hittades inte.")
         except(ValueError, IndexError):
             print("Ogiltigt produktnummer.")
+            
         
     elif choice == '3':
         print("Vilken produkt vill du lägga till?")
@@ -82,21 +100,25 @@ def menu():
         price = float(input("Pris: "))
         quantity = int(input("Antal i lager: "))
         products.append({
-            "id": len(products) + 1,
+            "id": len(products) + 1,  # Nytt index utan att användaren gör något.
             "name": name,
             "desc": desc,
             "price": price,
             "quantity": quantity
         })
+        Save_data(products, 'db_products.csv')
+        print("Sparar produkt...")
         os.system('cls')
     elif choice == '4':
+        Save_data(products, 'db_products.csv')
+        print("Sparar listan innan avslut...")
+        sleep(2)
         print("Avslutar programmet...")
         exit()
 
 locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')  
 
-load_data('c:/Users/pablo.anderssonmeli/Documents/TilllämpadProgrammering/uppgift3/Uppgift3/db_products.csv')
-
+load_data('db_products.csv')
 
  
 os.system('cls')
